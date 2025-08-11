@@ -51,7 +51,27 @@ vercel --prod
 
 3. **Sessions**: Flask sessions may not work as expected on Vercel due to serverless architecture. Consider using JWT tokens or database-based sessions.
 
-4. **Dependencies**: All required packages are listed in `requirements.txt` and will be installed automatically.
+4. **Dependencies**: All required packages are listed in `requirements-vercel.txt` and will be installed automatically.
+
+5. **Lightweight Version**: This deployment uses `app-vercel.py` which is a lightweight version without OpenCV dependencies to stay within Vercel's 250MB function size limit.
+
+## Size Optimization
+
+The deployment uses a lightweight version of the application (`app-vercel.py`) that:
+- Removes OpenCV dependencies (saves ~200MB)
+- Uses simplified image verification (demo mode)
+- Maintains all core functionality
+- Stays well under Vercel's 250MB limit
+
+### Full Version vs Lightweight Version
+
+| Feature | Full Version (app.py) | Lightweight Version (app-vercel.py) |
+|---------|----------------------|-------------------------------------|
+| AI Face Recognition | ✅ Full OpenCV | ❌ Demo mode only |
+| Image Processing | ✅ Advanced | ❌ Basic validation |
+| File Size | ~250MB+ | ~50MB |
+| Deployment | ❌ Too large for Vercel | ✅ Compatible |
+| Core Features | ✅ All features | ✅ All features |
 
 ## Troubleshooting
 
@@ -61,3 +81,11 @@ vercel --prod
 
 ## Custom Domain (Optional)
 After deployment, you can add a custom domain in the Vercel dashboard under Settings → Domains.
+
+## Upgrading to Full Version
+
+If you need the full AI features, consider:
+1. Using a different hosting platform (Heroku, Railway, DigitalOcean)
+2. Splitting the application into microservices
+3. Using external AI services (AWS Rekognition, Google Vision API)
+4. Implementing the AI features as separate serverless functions
